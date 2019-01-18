@@ -15,6 +15,8 @@ def request_page(**kwargs):
     # Below are the parameters for the REST request
     # Information about possible parameters can be found at:
     #   http://ucdp.uu.se/apidocs/
+    kwargs['page'] = 0 if 'page' not in kwargs else kwargs['page']
+    kwargs['pagesize'] = 1000 if 'pagesize' not in kwargs else kwargs['pagesize']
     req_string = parse.urlencode(kwargs) # will encode the parameters in the right format
 
     # Below, we prepare the request to the REST webpage that will return our data
