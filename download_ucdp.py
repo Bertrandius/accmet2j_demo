@@ -9,17 +9,13 @@
 from urllib import parse, request
 import json
 
-def request_page(page=1, params=None):
+def request_page(**kwargs):
     '''Request a page of data from the UCDP database.'''
 
     # Below are the parameters for the REST request
     # Information about possible parameters can be found at:
     #   http://ucdp.uu.se/apidocs/
-    req_params = params if params is not None else {
-        'pagesize': 1000,
-        'page': page
-    }
-    req_string = parse.urlencode(req_params) # will encode the parameters in the right format
+    req_string = parse.urlencode(kwargs) # will encode the parameters in the right format
 
     # Below, we prepare the request to the REST webpage that will return our data
     req = request.Request('http://ucdpapi.pcr.uu.se/api/gedevents/5.0?' + req_string)
@@ -32,12 +28,7 @@ def request_page(page=1, params=None):
     return response
 
 # Request some data from the online database
-parameters = {
-    'pagesize': 1,
-    'page': 1,
-    'Country': 850
-}
-result = request_page(params=parameters)
+result = request_page(page=0, pagesize=1000, country=482)
 
 with open('sample.json', 'w') as file: # open a file for writing
     json.dump(result, file, indent=4) # save the result as json in this file
